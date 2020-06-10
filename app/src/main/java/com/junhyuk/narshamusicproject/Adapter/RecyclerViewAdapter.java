@@ -3,14 +3,17 @@ package com.junhyuk.narshamusicproject.Adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.junhyuk.narshamusicproject.R;
-import com.junhyuk.narshamusicproject.viewHolder.ViewHolder;
 
-class RecyclerViewAdapter extends RecyclerView.Adapter<ViewHolder> {
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+
+    int i = 1;
 
     @NonNull
     @Override
@@ -22,12 +25,26 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int position) {
-        
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+        viewHolder.musicImage.setImageResource(R.drawable.call_api);
+        viewHolder.musicText.setText("음악이름입니다!하하하");
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return i;
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder {
+
+        public ImageView musicImage;
+        public TextView musicText;
+
+        public ViewHolder(@NonNull final View itemView) {
+            super(itemView);
+
+            musicImage = itemView.findViewById(R.id.music_image);
+            musicText = itemView.findViewById(R.id.music_title);
+        }
     }
 }
