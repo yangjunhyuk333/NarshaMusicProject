@@ -13,26 +13,36 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/fontstyle"
         android:text="MusicJavava"
-        android:textColor="@color/colorBlack"
+        android:textColor="@color/colorMain"
         android:textSize="35dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.135"
+        app:layout_constraintHorizontal_bias="0.083"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.024" />
+        app:layout_constraintVertical_bias="0.100000024" />
 
     <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="350dp"
         android:layout_height="500dp"
+        android:elevation="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.35000002">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/music_list" />
+
+    </FrameLayout>
 
     <ImageButton
+        android:id="@+id/voice_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
@@ -41,6 +51,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/voice_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/voice_button"
+        app:layout_constraintEnd_toEndOf="@+id/voice_button"
+        app:layout_constraintStart_toStartOf="@+id/voice_button"
+        app:layout_constraintTop_toTopOf="@+id/voice_button" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
