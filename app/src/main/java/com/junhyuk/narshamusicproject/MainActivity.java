@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //다이얼로그 실행
                 Toast.makeText(getApplicationContext(), "다이얼로그 실행", Toast.LENGTH_LONG).show();
+                CustomDialog customDialog = new CustomDialog(MainActivity.this);
+                customDialog.show();
             }
         });
 
