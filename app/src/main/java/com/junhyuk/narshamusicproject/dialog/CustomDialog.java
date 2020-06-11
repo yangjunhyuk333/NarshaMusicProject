@@ -1,10 +1,12 @@
-package com.junhyuk.narshamusicproject;
+package com.junhyuk.narshamusicproject.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.junhyuk.narshamusicproject.R;
 
 public class CustomDialog {
     private Context context;
