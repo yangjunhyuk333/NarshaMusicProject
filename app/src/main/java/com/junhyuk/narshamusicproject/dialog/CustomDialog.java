@@ -23,12 +23,12 @@ public class CustomDialog {
 
         dialog.show();
 
-        Button button = (Button)dialog.findViewById(R.id.cancel_bnt);
+        Button button = dialog.findViewById(R.id.cancel_bnt);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "다이얼로그 취소", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "녹음 완료", Toast.LENGTH_SHORT).show();
 
                 dialog.dismiss();
             }
