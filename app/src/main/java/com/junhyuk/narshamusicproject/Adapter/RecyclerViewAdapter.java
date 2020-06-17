@@ -13,7 +13,7 @@ import com.junhyuk.narshamusicproject.R;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
-    int i = 3;
+    int i = 10;
 
     @NonNull
     @Override

@@ -3,7 +3,6 @@ package com.junhyuk.narshamusicproject;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,6 +13,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.junhyuk.narshamusicproject.Adapter.RecyclerViewAdapter;
@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
 
+    TextView musicPlus;
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,15 @@ public class MainActivity extends AppCompatActivity {
         voiceButton = findViewById(R.id.voice_button);
 
         recyclerView = findViewById(R.id.recycler_view);
+
+        musicPlus = findViewById(R.id.music_plus);
+
+        musicPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "음악추가", Toast.LENGTH_LONG).show();
+            }
+        });
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -61,13 +72,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    public void checkPermission(){
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
+    public void checkPermission() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
             return;
-        for(String permission : permission_list){
+        for (String permission : permission_list) {
             int chk = checkCallingOrSelfPermission(permission);
-            if(chk == PackageManager.PERMISSION_DENIED){
-                requestPermissions(permission_list,0);
+            if (chk == PackageManager.PERMISSION_DENIED) {
+                requestPermissions(permission_list, 0);
             }
         }
     }
@@ -75,18 +86,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode==0)
-        {
-            for(int i=0; i<grantResults.length; i++)
-            {
-                if(grantResults[i]==PackageManager.PERMISSION_GRANTED){
-                }
-                else {
-                    Toast.makeText(getApplicationContext(),"앱권한설정하세요",Toast.LENGTH_LONG).show();
+        if (requestCode == 0) {
+            for (int i = 0; i < grantResults.length; i++) {
+                if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                } else {
+                    Toast.makeText(getApplicationContext(), "앱권한설정하세요", Toast.LENGTH_LONG).show();
                     finish();
                 }
             }
         }
     }
+
 
 }
