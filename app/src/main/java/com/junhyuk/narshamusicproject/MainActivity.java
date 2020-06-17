@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.junhyuk.narshamusicproject.Adapter.RecyclerViewAdapter;
+import com.junhyuk.narshamusicproject.dialog.CustomDialog;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recycler_view);
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(new RecyclerViewAdapter());
 
@@ -41,10 +43,6 @@ public class MainActivity extends AppCompatActivity {
                 customDialog.show();
             }
         });
-
-
-
-
     }
 
 }
