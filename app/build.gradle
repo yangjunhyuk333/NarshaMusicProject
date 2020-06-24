@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.junhyuk.narshamusicproject"
-        minSdkVersion 16
+        minSdkVersion 26
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -31,5 +31,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.android.support:design:29.0.0'
+    implementation 'com.google.code.gson:gson:2.8.6'
 
 }
