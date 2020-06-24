@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/fontstyle"
         android:text="반갑습니다."
-        android:textColor="@color/colorBlack"
+        android:textColor="@color/colorMain"
         android:textSize="40dp"
         app:layout_constraintBottom_toTopOf="@+id/frameLayout"
         app:layout_constraintEnd_toEndOf="parent"

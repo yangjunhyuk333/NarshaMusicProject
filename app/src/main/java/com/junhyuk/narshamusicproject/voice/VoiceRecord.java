@@ -14,6 +14,7 @@ import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.junhyuk.narshamusicproject.dialog.CustomDialog;
 
@@ -135,7 +136,7 @@ public class VoiceRecord {
         SttIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"ko-KR");//한국어 사용
         mRecognizer=SpeechRecognizer.createSpeechRecognizer(this.context);
         mRecognizer.setRecognitionListener(listener);
-        //mRecognizer.startListening(SttIntent);
+        mRecognizer.startListening(SttIntent);
     }
     private RecognitionListener listener=new RecognitionListener() {
         @Override
@@ -146,6 +147,7 @@ public class VoiceRecord {
 
         @Override
         public void onBeginningOfSpeech() {
+            Toast.makeText(context,"지금부터 말을 해주세요...........", Toast.LENGTH_LONG).show();
             log("지금부터 말을 해주세요..........."+"\r\n");
         }
 
@@ -166,6 +168,7 @@ public class VoiceRecord {
 
         @Override
         public void onError(int i) {
+            Toast.makeText(context,"천천히 다시 말해 주세요...........", Toast.LENGTH_LONG).show();
             log("천천히 다시 말해 주세요..........."+"\r\n");
         }
 
@@ -178,6 +181,7 @@ public class VoiceRecord {
             mResult.toArray(rs);
             //txtInMsg.setText(rs[0]+"\r\n"+txtInMsg.getText());
             log("success end");
+            Toast.makeText(context, rs[0], Toast.LENGTH_LONG).show();
             log(rs[0]+"\r\n");
             //FuncVoiceOrderCheck(rs[0]);
             customDialog.getVoide(rs[0]);

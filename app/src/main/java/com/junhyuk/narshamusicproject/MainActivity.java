@@ -7,11 +7,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,11 +30,17 @@ public class MainActivity extends AppCompatActivity {
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
+    String userName;
+
+    Intent intent;
+
     ImageButton voiceButton;
 
     RecyclerView recyclerView;
 
     TextView musicPlus;
+
+    TextView textView;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -47,6 +56,16 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view);
 
         musicPlus = findViewById(R.id.music_plus);
+
+        textView = findViewById(R.id.textView);
+
+        intent = getIntent();
+
+        userName = intent.getExtras().getString("userName");
+
+        Log.d("Test", "data: " + userName);
+
+        textView.setText(userName + "님 반갑습니다.");
 
         musicPlus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,6 +115,5 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
 
 }
