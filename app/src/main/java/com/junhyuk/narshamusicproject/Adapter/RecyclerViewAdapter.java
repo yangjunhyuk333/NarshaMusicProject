@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.junhyuk.narshamusicproject.R;
+import com.junhyuk.narshamusicproject.database.Array_data.data;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -40,7 +41,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         viewHolder.musicImage.setImageResource(R.drawable.music_thumnail_example);
         readFile();
-        viewHolder.musicText.setText("음악 이름");
+        viewHolder.musicText.setText(data.musicTitle.get(0));
     }
 
     @Override

@@ -3,17 +3,15 @@ package com.junhyuk.narshamusicproject;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -22,11 +20,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.junhyuk.narshamusicproject.Adapter.RecyclerViewAdapter;
+import com.junhyuk.narshamusicproject.database.Array_data.data;
+import com.junhyuk.narshamusicproject.database.app_data.MusicDataBase;
+import com.junhyuk.narshamusicproject.database.data.MusicData;
 import com.junhyuk.narshamusicproject.dialog.CustomDialog;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -50,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
 
     TextView textView;
 
+    MusicDataBase musicDataBase;
+
+    List<String> musicTitleList = Arrays.asList();
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         checkPermission();
+
+        musicDataBase = MusicDataBase.getMusicDatabase(getApplicationContext());
 
         voiceButton = findViewById(R.id.voice_button);
 
@@ -72,6 +79,15 @@ public class MainActivity extends AppCompatActivity {
         userName = intent.getExtras().getString("userName");
 
         Log.d("Test", "data: " + userName);
+
+        musicDataBase.music_dao().getTitle().observe(this, strings -> {
+            musicTitleList = strings;
+            data.musicTitle.addAll(musicTitleList);
+        });
+
+        if(userName.length() > 5){
+            textView.setTextSize(30);
+        }
 
         textView.setText(userName + "님 반갑습니다.");
 
