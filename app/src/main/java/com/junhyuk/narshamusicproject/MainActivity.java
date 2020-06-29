@@ -9,18 +9,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.junhyuk.narshamusicproject.Adapter.RecyclerViewAdapter;
 import com.junhyuk.narshamusicproject.dialog.CustomDialog;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     ImageButton voiceButton;
 
     RecyclerView recyclerView;
+
+    RecyclerViewAdapter recyclerViewAdapter;
 
     TextView musicPlus;
 
@@ -67,15 +75,9 @@ public class MainActivity extends AppCompatActivity {
 
         textView.setText(userName + "님 반갑습니다.");
 
-        musicPlus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "음악추가", Toast.LENGTH_LONG).show();
-            }
-        });
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerViewAdapter.getApplication(getApplication());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(new RecyclerViewAdapter());
 
