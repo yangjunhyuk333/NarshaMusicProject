@@ -3,11 +3,11 @@ package com.junhyuk.narshamusicproject;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -15,6 +15,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,7 +55,17 @@ public class MainActivity extends AppCompatActivity {
 
     MusicDataBase musicDataBase;
 
-    List<String> musicTitleList = Arrays.asList();
+    EditText editText;
+
+    Button enterButton;
+
+    Context context;
+
+    RecyclerViewAdapter.ViewHolder viewHolder;
+
+    DBThread dbThread;
+
+    List<String> list = Arrays.asList();
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -66,7 +78,13 @@ public class MainActivity extends AppCompatActivity {
 
         musicDataBase = MusicDataBase.getMusicDatabase(getApplicationContext());
 
+        context = getApplicationContext();
+
         voiceButton = findViewById(R.id.voice_button);
+
+        editText = findViewById(R.id.editText);
+
+        enterButton = findViewById(R.id.enter_button);
 
         recyclerView = findViewById(R.id.recycler_view);
 
@@ -74,26 +92,28 @@ public class MainActivity extends AppCompatActivity {
 
         textView = findViewById(R.id.textView);
 
+        dbThread = new DBThread();
+
         intent = getIntent();
 
         userName = intent.getExtras().getString("userName");
 
         Log.d("Test", "data: " + userName);
 
-        musicDataBase.music_dao().getTitle().observe(this, strings -> {
-            musicTitleList = strings;
-            data.musicTitle.addAll(musicTitleList);
+        enterButton.setOnClickListener(v -> {
+            Log.d("DataBase", "buttonClick");
+            dbThread.start();
+            musicDataBase.music_dao().getTitle().observe(MainActivity.this, strings -> {
+                Log.d("DataBase", "data: " + strings.get(0));
+                list = strings;
+                data.musicTitle.addAll(list);
+            });
         });
-
-        if(userName.length() > 5){
-            textView.setTextSize(30);
-        }
 
         textView.setText(userName + "님 반갑습니다.");
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        recyclerViewAdapter.getApplication(getApplication());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(new RecyclerViewAdapter());
 
@@ -131,6 +151,13 @@ public class MainActivity extends AppCompatActivity {
                     finish();
                 }
             }
+        }
+    }
+
+    public class DBThread extends Thread{
+        @Override
+        public void run() {
+            musicDataBase.music_dao().insert(new MusicData(editText.getText().toString()));
         }
     }
 

@@ -11,6 +11,11 @@ public class MusicData
     @PrimaryKey(autoGenerate = true)
     public int musicId;
 
+    private String musicTitle;
+    private int playBackTime;
+    private String singer;
+    private String link;
+
     public MusicData(String musicTitle) {
         this.musicTitle = musicTitle;
     }
@@ -46,10 +51,5 @@ public class MusicData
     public void setLink(String link) {
         this.link = link;
     }
-
-    private String musicTitle;
-    private int playBackTime;
-    private String singer;
-    private String link;
 
 }

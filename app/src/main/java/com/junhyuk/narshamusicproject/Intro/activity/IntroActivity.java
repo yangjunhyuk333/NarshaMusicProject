@@ -6,17 +6,39 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import com.junhyuk.narshamusicproject.Intro.fragment.IntroFragment;
+import com.junhyuk.narshamusicproject.MainActivity;
 import com.junhyuk.narshamusicproject.R;
+import com.junhyuk.narshamusicproject.database.Array_data.data;
+import com.junhyuk.narshamusicproject.database.app_data.MusicDataBase;
+import com.junhyuk.narshamusicproject.database.data.MusicData;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class IntroActivity extends AppCompatActivity {
+
+    MusicDataBase musicDataBase;
+
+    List<String> list = Arrays.asList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
+
+        musicDataBase = MusicDataBase.getMusicDatabase(getApplicationContext());
+
+        DBThread dbThread = new DBThread();
+        dbThread.start();
+
+        musicDataBase.music_dao().getTitle().observe(IntroActivity.this, strings -> {
+            list = strings;
+            data.musicTitle.addAll(list);
+        });
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -43,5 +65,12 @@ public class IntroActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         finish();
+    }
+
+    public class DBThread extends Thread{
+        @Override
+        public void run() {
+            musicDataBase.music_dao().insert(new MusicData("음악 제목"));
+        }
     }
 }
