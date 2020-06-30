@@ -24,17 +24,17 @@ public class MusicPlayer extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_musicplayer);
 
         songs = new int[3];
         songs[0] = R.raw.buluming_iu;
         songs[1] = R.raw.izone;
         songs[2] = R.raw.red_face;
 
-//        preButton = findViewById(R.id.pre);
-//        startButton = findViewById(R.id.start);
-//        stopButton = findViewById(R.id.stop);
-//        nextButton = findViewById(R.id.next);
+        preButton = findViewById(R.id.pre);
+        startButton = findViewById(R.id.start);
+        stopButton = findViewById(R.id.stop);
+        nextButton = findViewById(R.id.next);
 
 
 
@@ -43,7 +43,7 @@ public class MusicPlayer extends AppCompatActivity {
             public void onClick(View v) {
                 if(mediaPlayer != null)
                     mediaPlayer.stop();
-//                mediaPlayer = MediaPlayer.create(MainActivity.this, songs[playing]);
+                mediaPlayer = MediaPlayer.create(MusicPlayer.this, songs[playing]);
                 mediaPlayer.start();
             }
         });
@@ -58,7 +58,7 @@ public class MusicPlayer extends AppCompatActivity {
                 if(playing <= -1)
                     playing = 2;
                 Log.d("Playing", "Play : " + playing);
-//                mediaPlayer = MediaPlayer.create(MainActivity.this, songs[playing]);
+                mediaPlayer = MediaPlayer.create(MusicPlayer.this, songs[playing]);
                 mediaPlayer.start();
             }
         });
@@ -73,7 +73,7 @@ public class MusicPlayer extends AppCompatActivity {
                 if(playing == 3)
                     playing = 0;
                 Log.d("Playing", "Play : " + playing);
-//                mediaPlayer = MediaPlayer.create(MainActivity.this, songs[playing]);
+                mediaPlayer = MediaPlayer.create(MusicPlayer.this, songs[playing]);
                 mediaPlayer.start();
 
             }
