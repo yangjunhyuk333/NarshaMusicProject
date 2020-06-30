@@ -33,7 +33,7 @@ public class CustomDialog implements VoiceRecord.VoiceRecordResult {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "녹음 완료", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "녹음 완료", Toast.LENGTH_SHORT).show();
                 if(record != null) {
                     //record.stopRecord();
                 }

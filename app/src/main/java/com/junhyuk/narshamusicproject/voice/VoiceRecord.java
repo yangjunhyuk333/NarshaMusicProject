@@ -147,7 +147,7 @@ public class VoiceRecord {
 
         @Override
         public void onBeginningOfSpeech() {
-            Toast.makeText(context,"지금부터 말을 해주세요...........", Toast.LENGTH_LONG).show();
+            //Toast.makeText(context,"지금부터 말을 해주세요...........", Toast.LENGTH_LONG).show();
             log("지금부터 말을 해주세요..........."+"\r\n");
         }
 
@@ -168,7 +168,7 @@ public class VoiceRecord {
 
         @Override
         public void onError(int i) {
-            Toast.makeText(context,"천천히 다시 말해 주세요...........", Toast.LENGTH_LONG).show();
+           // Toast.makeText(context,"천천히 다시 말해 주세요...........", Toast.LENGTH_LONG).show();
             log("천천히 다시 말해 주세요..........."+"\r\n");
         }
 
