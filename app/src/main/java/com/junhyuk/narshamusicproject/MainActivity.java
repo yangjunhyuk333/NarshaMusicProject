@@ -24,6 +24,7 @@ import com.junhyuk.narshamusicproject.database.Array_data.data;
 import com.junhyuk.narshamusicproject.database.app_data.MusicDataBase;
 import com.junhyuk.narshamusicproject.database.data.MusicData;
 import com.junhyuk.narshamusicproject.dialog.CustomDialog;
+import com.junhyuk.narshamusicproject.musicPlayer.MusicPlayer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -104,6 +105,14 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "다이얼로그 실행", Toast.LENGTH_LONG).show();
                 CustomDialog customDialog = new CustomDialog(MainActivity.this);
                 customDialog.show();
+            }
+        });
+
+        musicPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),MusicPlayer.class);
+                startActivity(intent);
             }
         });
     }
