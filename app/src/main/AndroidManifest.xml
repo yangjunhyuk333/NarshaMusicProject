@@ -17,7 +17,6 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         android:requestLegacyExternalStorage="true" >
-        <activity android:name=".filepath.FilePath"></activity>
         <activity android:name=".MainActivity"></activity>
         <activity android:name=".Intro.activity.IntroActivity">
             <intent-filter>
