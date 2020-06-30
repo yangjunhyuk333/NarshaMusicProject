@@ -16,6 +16,7 @@ public class MusicPlayer extends AppCompatActivity {
 
     MediaPlayer mediaPlayer;
 
+    Button preButton;
     Button nextButton;
     Button startButton;
     Button stopButton;
@@ -30,6 +31,7 @@ public class MusicPlayer extends AppCompatActivity {
         songs[1] = R.raw.izone;
         songs[2] = R.raw.red_face;
 
+//        preButton = findViewById(R.id.pre);
 //        startButton = findViewById(R.id.start);
 //        stopButton = findViewById(R.id.stop);
 //        nextButton = findViewById(R.id.next);
@@ -41,6 +43,21 @@ public class MusicPlayer extends AppCompatActivity {
             public void onClick(View v) {
                 if(mediaPlayer != null)
                     mediaPlayer.stop();
+//                mediaPlayer = MediaPlayer.create(MainActivity.this, songs[playing]);
+                mediaPlayer.start();
+            }
+        });
+
+        preButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                playing--;
+                if(mediaPlayer != null) {
+                    mediaPlayer.stop();
+                }
+                if(playing <= -1)
+                    playing = 2;
+                Log.d("Playing", "Play : " + playing);
 //                mediaPlayer = MediaPlayer.create(MainActivity.this, songs[playing]);
                 mediaPlayer.start();
             }
