@@ -54,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
 
     TextView textView;
 
+    TextView musicpPlayer;
+
     MusicDataBase musicDataBase;
 
     EditText editText;
@@ -93,6 +95,8 @@ public class MainActivity extends AppCompatActivity {
 
         textView = findViewById(R.id.textView);
 
+        musicpPlayer = findViewById(R.id.music_player);
+
         dbThread = new DBThread();
 
         intent = getIntent();
@@ -128,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        musicPlus.setOnClickListener(new View.OnClickListener() {
+        musicpPlayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(),MusicPlayer.class);
