@@ -23,7 +23,7 @@ public class MusicPlayer extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+//        setContentView(R.layout.activity_main);
 
         songs = new int[3];
         songs[0] = R.raw.buluming_iu;
