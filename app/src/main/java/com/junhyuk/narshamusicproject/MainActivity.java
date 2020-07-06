@@ -13,10 +13,12 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
+import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -33,6 +35,7 @@ import com.junhyuk.narshamusicproject.database.app_data.MusicDataBase;
 import com.junhyuk.narshamusicproject.database.data.MusicData;
 import com.junhyuk.narshamusicproject.dialog.CustomDialog;
 import com.junhyuk.narshamusicproject.musicPlayer.MusicPlayer;
+import com.junhyuk.narshamusicproject.util.Util;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -172,13 +175,19 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Value.FIND_AUDIO_REQUEST && resultCode == Activity.RESULT_OK) {
-            Uri uri  =data.getData();
+            Uri uri  = data.getData();
             try {
                 Log.d(TAG,"uri : "+ URLDecoder.decode(uri.toString(),"UTF-8"));
                 Log.d(TAG,"uri P : "+uri.getPath());
-                ContentResolver contentResolver = getContentResolver();
-                ParcelFileDescriptor pdf = contentResolver.openFileDescriptor(uri, "r", null);
-            } catch (UnsupportedEncodingException | FileNotFoundException e) {
+                Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+                if(cursor !=null &&cursor.getCount() > 0){
+                    cursor.moveToFirst();
+                    String name = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                    Log.d(TAG,"uri F : "+name);
+                   //Util.mediaStoreSaveFile(getApplicationContext(), uri, name);
+                    Util.mediaStoreReadFile(getApplicationContext());
+                }
+            } catch (UnsupportedEncodingException e) {
 
                 Log.d(TAG,"err : "+ e.getMessage());
             }
