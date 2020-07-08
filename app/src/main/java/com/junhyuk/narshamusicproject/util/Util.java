@@ -1,6 +1,7 @@
 package com.junhyuk.narshamusicproject.util;
 
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -91,8 +92,8 @@ public class Util {
         do {
         } while (cursor.moveToNext());
     }
-    public static ArrayList<String> getMediaStoreReadFileUri(Context context) {
-        ArrayList<String> list = new ArrayList<>();
+    public static ArrayList<Uri> getMediaStoreReadFileUri(Context context) {
+        ArrayList<Uri> list = new ArrayList<>();
         Uri externalUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
         String[] projection = new String[]{
                 MediaStore.Audio.Media._ID,
@@ -108,8 +109,15 @@ public class Util {
         }
         do {
             String fullPath = cursor.getString(cursor.getColumnIndex(MediaStore.Files.FileColumns.DATA));
+            Uri contenturi = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                    cursor.getInt(cursor.getColumnIndex(MediaStore.Files.FileColumns._ID)));
+            //content://com.alphainventor.filemanager.fileprovider/root/storage/emulated/0/KakaoTalkDownload/품 - 볼빨간사춘기.mp3
+            //content://media/external/audio/media/19766
             Log.d("MainA", "uri : "+fullPath);
-            list.add(fullPath);
+            Log.d("MainA", "uri : "+contenturi);
+            fullPath = "content://com.alphainventor.filemanager.fileprovider/root"+fullPath;
+            list.add(contenturi);
+            //list.add(Uri.parse(fullPath));
         } while (cursor.moveToNext());
         return list;
     }

@@ -25,7 +25,7 @@ public class MusicPlayer extends AppCompatActivity {
     Button startButton;
     Button stopButton;
 
-    ArrayList<String> uriArrayList;
+    ArrayList<Uri> uriArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +39,7 @@ public class MusicPlayer extends AppCompatActivity {
 
         mediaPlayer = new MediaPlayer();
         // mediaPlayer.setDataSource(this, Uri.parse(Util.getMediaStoreReadFileUri(getApplicationContext())));
+        Log.d("TAG", ""+uriArrayList.get(0));
 
 
         preButton = findViewById(R.id.pre);
@@ -51,12 +52,20 @@ public class MusicPlayer extends AppCompatActivity {
             if (mediaPlayer != null)
                 mediaPlayer.stop();
             try {
-                mediaPlayer.setDataSource(getApplicationContext(), Uri.parse(uriArrayList.get(playing)));
+                mediaPlayer.setDataSource(getApplicationContext(), uriArrayList.get(playing));
+                mediaPlayer.prepare();
+                mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                    @Override
+                    public void onPrepared(MediaPlayer mp) {
+                        mediaPlayer.start();
+                    }
+                });
+
                 Log.d("TAG", "ge");
             } catch (IOException e) {
+                Log.d("TAG", "he");
                 e.printStackTrace();
             }
-            mediaPlayer.start();
         });
 
         preButton.setOnClickListener(v -> {
@@ -68,11 +77,17 @@ public class MusicPlayer extends AppCompatActivity {
                 playing = 2;
             Log.d("Playing", "Play : " + playing);
             try {
-                mediaPlayer.setDataSource(getApplicationContext(), Uri.parse(uriArrayList.get(playing)));
+                mediaPlayer.setDataSource(getApplicationContext(), uriArrayList.get(playing));
+                mediaPlayer.prepare();
+                mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                    @Override
+                    public void onPrepared(MediaPlayer mp) {
+                        mediaPlayer.start();
+                    }
+                });
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            mediaPlayer.start();
         });
 
         nextButton.setOnClickListener(v -> {
@@ -84,11 +99,18 @@ public class MusicPlayer extends AppCompatActivity {
                 playing = 0;
             Log.d("Playing", "Play : " + playing);
             try {
-                mediaPlayer.setDataSource(getApplicationContext(), Uri.parse(uriArrayList.get(playing)));
+                mediaPlayer.setDataSource(getApplicationContext(), uriArrayList.get(playing));
+//                mediaPlayer.prepare();
+//                mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+//                    @Override
+//                    public void onPrepared(MediaPlayer mp) {
+//
+//                    }
+//                });
+                mediaPlayer.start();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            mediaPlayer.start();
 
         });
 
