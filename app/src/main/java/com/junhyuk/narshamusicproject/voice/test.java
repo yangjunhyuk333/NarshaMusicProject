@@ -1,7 +1,5 @@
-package com.junhyuk.narshamusicproject.record;
-
-import com.google.gson.Gson;
-import com.junhyuk.narshamusicproject.voice.VoiceRecord;
+package com.junhyuk.narshamusicproject.voice;
+/*import com.google.gson.Gson;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -16,8 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class WiseNLUExample {
-
+public class test {
     static public class Morpheme {
         final String text;
         final String type;
@@ -43,15 +40,14 @@ public class WiseNLUExample {
         String openApiURL = "http://aiopen.etri.re.kr:8000/WiseNLU";
         String accessKey = "1c8d733e-e922-4d5e-b4ef-e2cf9e1d8570\n";   // 발급받은 API Key
         String analysisCode = "ko-KR";        // 언어 분석 코드
-        String[] text = VoiceRecord.rs;           // 분석할 텍스트 데이터
-
+        String text = "";           // 분석할 텍스트 데이터
         Gson gson = new Gson();
 
         Map<String, Object> request = new HashMap<>();
         Map<String, String> argument = new HashMap<>();
 
         argument.put("analysis_code", analysisCode);
-        argument.put("text", text[VoiceRecord.rs_idx]);
+        argument.put("text", text);
 
         request.put("access_key", accessKey);
         request.put("argument", argument);
@@ -194,3 +190,4 @@ public class WiseNLUExample {
         }
     }
 }
+*/

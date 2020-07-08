@@ -125,6 +125,8 @@ public class VoiceRecord {
     Intent SttIntent;
     SpeechRecognizer mRecognizer;
     CustomDialog customDialog;
+    public static String[] rs;
+    public static int rs_idx;
 
     public VoiceRecord(Context context, CustomDialog customDialog) {
         this.context = context;
@@ -178,7 +180,8 @@ public class VoiceRecord {
             String key= "";
             key = SpeechRecognizer.RESULTS_RECOGNITION;
             ArrayList<String> mResult =results.getStringArrayList(key);
-            String[] rs = new String[mResult.size()];
+            rs = new String[mResult.size()];
+            rs_idx = mResult.size();
             mResult.toArray(rs);
             //txtInMsg.setText(rs[0]+"\r\n"+txtInMsg.getText());
             log("success end");
