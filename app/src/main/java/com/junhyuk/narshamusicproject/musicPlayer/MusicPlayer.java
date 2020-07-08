@@ -3,6 +3,7 @@ package com.junhyuk.narshamusicproject.musicPlayer;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 
 public class MusicPlayer extends AppCompatActivity {
     private int playing = 0; // 현재 연주중인 음원 지시자
+    private int maxCount;
 
     MediaPlayer mediaPlayer;
 
@@ -36,8 +38,9 @@ public class MusicPlayer extends AppCompatActivity {
             uriArrayList = Util.getMediaStoreReadFileUri(this);
         }
 
-
+        maxCount = Util.getCount(this);
         mediaPlayer = new MediaPlayer();
+
         // mediaPlayer.setDataSource(this, Uri.parse(Util.getMediaStoreReadFileUri(getApplicationContext())));
         Log.d("TAG", ""+uriArrayList.get(0));
 
@@ -52,14 +55,12 @@ public class MusicPlayer extends AppCompatActivity {
             if (mediaPlayer != null)
                 mediaPlayer.stop();
             try {
+                mediaPlayer.release();
+                mediaPlayer = null;
+                mediaPlayer = new MediaPlayer();
                 mediaPlayer.setDataSource(getApplicationContext(), uriArrayList.get(playing));
                 mediaPlayer.prepare();
-                mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                    @Override
-                    public void onPrepared(MediaPlayer mp) {
-                        mediaPlayer.start();
-                    }
-                });
+                mediaPlayer.setOnPreparedListener(mp -> mediaPlayer.start());
 
                 Log.d("TAG", "ge");
             } catch (IOException e) {
@@ -74,17 +75,15 @@ public class MusicPlayer extends AppCompatActivity {
                 mediaPlayer.stop();
             }
             if (playing <= -1)
-                playing = 2;
+                playing = maxCount - 1;
             Log.d("Playing", "Play : " + playing);
             try {
+                mediaPlayer.release();
+                mediaPlayer = null;
+                mediaPlayer = new MediaPlayer();
                 mediaPlayer.setDataSource(getApplicationContext(), uriArrayList.get(playing));
                 mediaPlayer.prepare();
-                mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                    @Override
-                    public void onPrepared(MediaPlayer mp) {
-                        mediaPlayer.start();
-                    }
-                });
+                mediaPlayer.setOnPreparedListener(mp -> mediaPlayer.start());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -95,19 +94,17 @@ public class MusicPlayer extends AppCompatActivity {
             if (mediaPlayer != null) {
                 mediaPlayer.stop();
             }
-            if (playing == 3)
+            if (playing == maxCount)
                 playing = 0;
             Log.d("Playing", "Play : " + playing);
             try {
+                mediaPlayer.release();
+                mediaPlayer = null;
+                mediaPlayer = new MediaPlayer();
                 mediaPlayer.setDataSource(getApplicationContext(), uriArrayList.get(playing));
-//                mediaPlayer.prepare();
-//                mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-//                    @Override
-//                    public void onPrepared(MediaPlayer mp) {
-//
-//                    }
-//                });
-                mediaPlayer.start();
+                mediaPlayer.prepare();
+                mediaPlayer.setOnPreparedListener(mp ->
+                        mediaPlayer.start());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -126,9 +123,10 @@ public class MusicPlayer extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         // MediaPlayer 해지
-        if(mediaPlayer != null) {
+        super.onDestroy();
+        Log.d("TAG", "distory");
+        if (mediaPlayer != null) {
             mediaPlayer.release();
             mediaPlayer = null;
         }

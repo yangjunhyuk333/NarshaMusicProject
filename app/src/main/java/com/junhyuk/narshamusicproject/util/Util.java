@@ -76,22 +76,17 @@ public class Util {
 
     }
 
-    public static void mediaStoreReadFile(Context context) {
+    public static int getCount(Context context) {
         Uri externalUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
         String[] projection = new String[]{
-                MediaStore.Audio.Media._ID,
-                MediaStore.Audio.Media.DISPLAY_NAME,
-                MediaStore.Audio.Media.MIME_TYPE
+
         };
 
         Cursor cursor = context.getContentResolver().query(externalUri, projection, null, null, null);
-        Log.d("MainA", "cnt : "+cursor.getCount());
-        if (cursor == null || !cursor.moveToFirst()) {
-            return;
-        }
-        do {
-        } while (cursor.moveToNext());
+        Log.d("MainB", "cnt : "+cursor.getCount());
+        return cursor.getCount();
     }
+
     public static ArrayList<Uri> getMediaStoreReadFileUri(Context context) {
         ArrayList<Uri> list = new ArrayList<>();
         Uri externalUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
