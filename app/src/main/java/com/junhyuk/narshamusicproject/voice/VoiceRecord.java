@@ -17,6 +17,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.junhyuk.narshamusicproject.dialog.CustomDialog;
+import com.junhyuk.narshamusicproject.record.WiseNLUExample;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -186,6 +187,7 @@ public class VoiceRecord {
             //FuncVoiceOrderCheck(rs[0]);
             customDialog.getVoide(rs[0]);
             mRecognizer.startListening(SttIntent);
+
 
         }
 

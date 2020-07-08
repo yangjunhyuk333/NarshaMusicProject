@@ -54,4 +54,8 @@ public class CustomDialog implements VoiceRecord.VoiceRecordResult {
         Log.d("VoiceRecord","msg : "+msg);
         dialog.dismiss();
     }
+
+    public void stringToWord(String msg) {
+
+    }
 }
