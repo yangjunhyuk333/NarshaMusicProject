@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
                     String name = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
                     Log.d(TAG,"uri F : "+name);
                    //Util.mediaStoreSaveFile(getApplicationContext(), uri, name);
-                    Util.mediaStoreReadFile(getApplicationContext());
+                    //Util.mediaStoreReadFile(getApplicationContext());
                 }
             } catch (UnsupportedEncodingException e) {
 

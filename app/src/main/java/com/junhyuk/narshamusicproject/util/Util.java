@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
@@ -85,14 +86,31 @@ public class Util {
         Cursor cursor = context.getContentResolver().query(externalUri, projection, null, null, null);
         Log.d("MainA", "cnt : "+cursor.getCount());
         if (cursor == null || !cursor.moveToFirst()) {
-
             return;
         }
-
         do {
-
-
-
         } while (cursor.moveToNext());
+    }
+    public static ArrayList<String> getMediaStoreReadFileUri(Context context) {
+        ArrayList<String> list = new ArrayList<>();
+        Uri externalUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        String[] projection = new String[]{
+                MediaStore.Audio.Media._ID,
+                MediaStore.Audio.Media.DISPLAY_NAME,
+                MediaStore.Audio.Media.MIME_TYPE,
+                MediaStore.Audio.Media.DATA
+        };
+
+        Cursor cursor = context.getContentResolver().query(externalUri, projection, null, null, null);
+        Log.d("MainA", "cnt : "+cursor.getCount());
+        if (cursor == null || !cursor.moveToFirst()) {
+            return null;
+        }
+        do {
+            String fullPath = cursor.getString(cursor.getColumnIndex(MediaStore.Files.FileColumns.DATA));
+            Log.d("MainA", "uri : "+fullPath);
+            list.add(fullPath);
+        } while (cursor.moveToNext());
+        return list;
     }
 }
