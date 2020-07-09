@@ -1,5 +1,6 @@
 package com.junhyuk.narshamusicproject.musicPlayer;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 public class MusicPlayer extends AppCompatActivity {
     private int playing = 0; // 현재 연주중인 음원 지시자
     private int maxCount;
+    String time;
 
     MediaPlayer mediaPlayer;
 
@@ -145,14 +147,26 @@ public class MusicPlayer extends AppCompatActivity {
     }
 
     public void setData() {
+        getPlayTime();
         textMusicTitle.setText((musicTitle.get(playing)).replace(".mp3", " "));
-        textMusicDuration.setText(musicDuration.get(playing));
+        textMusicDuration.setText(time);
         textMusicArtist.setText(musicArtist.get(playing));
     }
 
     public void getPlayTime() {
-        String Hour = String.format("%02d", ( Integer.parseInt(musicDuration.get(playing))) / 1000 / 3600);
-        String Min = String.format("%02d", ( Integer.parseInt(musicDuration.get(playing))) / 1000 / 60) % 60);
-        String Sec = String.format("%02d", ((mediaPlayer.getDuration()) / 1000) % 60);
+        int hour = (Integer.parseInt(musicDuration.get(playing)))/1000/3600;
+        int minute = ((Integer.parseInt(musicDuration.get(playing)))/1000/60) % 60;
+        int second = ((Integer.parseInt(musicDuration.get(playing)))/1000) % 60;
+        //time = String.format (   (hour + ":" + minute + ":" + second);
+        if(hour == 0)
+        {
+            time = String.format ("%02d:%02d",minute,second);
+        }
+        else if(hour == 0 && minute == 0)
+        {
+            time = String.format ("%02d",second);
+        }
+        else
+            time = String.format ("%02d:%02d",minute,second); 
     }
 }
