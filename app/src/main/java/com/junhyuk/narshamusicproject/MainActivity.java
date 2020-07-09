@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,16 +31,14 @@ import com.junhyuk.narshamusicproject.Adapter.RecyclerViewAdapter;
 import com.junhyuk.narshamusicproject.constant.Value;
 import com.junhyuk.narshamusicproject.database.Array_data.data;
 import com.junhyuk.narshamusicproject.database.app_data.MusicDataBase;
+import com.junhyuk.narshamusicproject.database.app_data.UsrDataBase;
 import com.junhyuk.narshamusicproject.database.data.MusicData;
 import com.junhyuk.narshamusicproject.dialog.CustomDialog;
 import com.junhyuk.narshamusicproject.musicPlayer.MusicPlayer;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -52,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
+    UsrDataBase usrDataBase;
+
     String userName;
 
     Intent intent;
@@ -59,8 +60,6 @@ public class MainActivity extends AppCompatActivity {
     ImageButton voiceButton;
 
     RecyclerView recyclerView;
-
-    RecyclerViewAdapter recyclerViewAdapter;
 
     TextView musicPlus;
 
@@ -76,11 +75,11 @@ public class MainActivity extends AppCompatActivity {
 
     Context context;
 
-    RecyclerViewAdapter.ViewHolder viewHolder;
-
     DBThread dbThread;
 
     List<String> list = Arrays.asList();
+
+    List<String> userNameList = Arrays.asList();
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -113,9 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
         intent = getIntent();
 
-        userName = intent.getExtras().getString("userName");
-
-        Log.d("Test", "data: " + userName);
+        usrDataBase = UsrDataBase.getUsrDataBase(this);
 
         enterButton.setOnClickListener(v -> {
             Log.d("DataBase", "buttonClick");
@@ -123,49 +120,45 @@ public class MainActivity extends AppCompatActivity {
             musicDataBase.music_dao().getTitle().observe(MainActivity.this, strings -> {
                 Log.d("DataBase", "data: " + strings.get(0));
                 list = strings;
-                data.musicTitle.addAll(list);
             });
         });
 
-        textView.setText(userName + "님 반갑습니다.");
+        Log.d("TEST1", "data: " + data.userName);
+
+        if(data.userName != null){
+            textView.setText(data.userName.get(0) + "님 반갑습니다.");
+        }else{
+            finish();
+        }
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(new RecyclerViewAdapter());
 
-        voiceButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //다이얼로그 실행
-                Toast.makeText(getApplicationContext(), "다이얼로그 실행", Toast.LENGTH_LONG).show();
-                CustomDialog customDialog = new CustomDialog(MainActivity.this);
-                customDialog.show();
-            }
+        voiceButton.setOnClickListener(v -> {
+            //다이얼로그 실행
+            Toast.makeText(getApplicationContext(), "다이얼로그 실행", Toast.LENGTH_LONG).show();
+            CustomDialog customDialog = new CustomDialog(MainActivity.this);
+            customDialog.show();
         });
 
-        musicpPlayer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),MusicPlayer.class);
-                startActivity(intent);
-            }
+        musicpPlayer.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(),MusicPlayer.class);
+            startActivity(intent);
         });
 
         //음악 파일 추가 MediaStore 등록
-        musicPlus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int code = Value.FIND_AUDIO_REQUEST;
+        musicPlus.setOnClickListener(view -> {
+            int code = Value.FIND_AUDIO_REQUEST;
 
-                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT).
-                        addCategory(Intent.CATEGORY_OPENABLE);
-                intent.setType("audio/*");
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT).
+                    addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("audio/*");
 
 
 
-                startActivityForResult(intent, code);
-            }
+            startActivityForResult(intent, code);
         });
     }
     @Override
