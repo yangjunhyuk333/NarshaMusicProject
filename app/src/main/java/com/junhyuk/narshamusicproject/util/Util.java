@@ -1,12 +1,17 @@
 package com.junhyuk.narshamusicproject.util;
 
 import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
 import android.util.Log;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +22,7 @@ public class Util {
         ContentResolver contentResolver = context.getContentResolver();
         Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
         //Uri uri = MediaStore.Files.getContentUri("external");
-        String[] projection = new String[] {
+        String[] projection = new String[]{
                 MediaStore.Audio.Media._ID,
                 MediaStore.Audio.Media.DISPLAY_NAME,
                 MediaStore.Audio.Media.ALBUM,
@@ -37,12 +42,12 @@ public class Util {
 
                 String fullPath = cursor.getString(cursor.getColumnIndex(MediaStore.Files.FileColumns.DATA));
                 // ...process entry...
-                Log.e("curso", "name : "+cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME)));
-                Log.e("curso", "ALBUM : "+cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM)));
-                Log.e("curso", "ARTIST : "+cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)));
-                Log.e("curso", "DURATION : "+cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION)));
+                Log.e("curso", "name : " + cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME)));
+                Log.e("curso", "ALBUM : " + cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM)));
+                Log.e("curso", "ARTIST : " + cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)));
+                Log.e("curso", "DURATION : " + cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION)));
 
-                Log.e("curso", "fullPath : "+fullPath);
+                Log.e("curso", "fullPath : " + fullPath);
 
                 songlist.add(fullPath);
                 Uri contentUri = Uri.withAppendedPath(
@@ -55,5 +60,60 @@ public class Util {
 
 
         return songlist;
+    }
+
+    public static void mediaStoreSaveFile(Context context, Uri uri, String fileName) {
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.DISPLAY_NAME, fileName);
+        values.put(MediaStore.Images.Media.MIME_TYPE, "audio/*");
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            values.put(MediaStore.Images.Media.IS_PENDING, 1);
+        }
+
+        ContentResolver contentResolver = context.getContentResolver();
+        Uri item = contentResolver.insert(uri, values);
+
+    }
+
+    public static int getCount(Context context) {
+        Uri externalUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        String[] projection = new String[]{
+
+        };
+
+        Cursor cursor = context.getContentResolver().query(externalUri, projection, null, null, null);
+        Log.d("MainB", "cnt : "+cursor.getCount());
+        return cursor.getCount();
+    }
+
+    public static ArrayList<Uri> getMediaStoreReadFileUri(Context context) {
+        ArrayList<Uri> list = new ArrayList<>();
+        Uri externalUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        String[] projection = new String[]{
+                MediaStore.Audio.Media._ID,
+                MediaStore.Audio.Media.DISPLAY_NAME,
+                MediaStore.Audio.Media.MIME_TYPE,
+                MediaStore.Audio.Media.DATA
+        };
+
+        Cursor cursor = context.getContentResolver().query(externalUri, projection, null, null, null);
+        Log.d("MainA", "cnt : "+cursor.getCount());
+        if (cursor == null || !cursor.moveToFirst()) {
+            return null;
+        }
+        do {
+            String fullPath = cursor.getString(cursor.getColumnIndex(MediaStore.Files.FileColumns.DATA));
+            Uri contenturi = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                    cursor.getInt(cursor.getColumnIndex(MediaStore.Files.FileColumns._ID)));
+            //content://com.alphainventor.filemanager.fileprovider/root/storage/emulated/0/KakaoTalkDownload/품 - 볼빨간사춘기.mp3
+            //content://media/external/audio/media/19766
+            Log.d("MainA", "uri : "+fullPath);
+            Log.d("MainA", "uri : "+contenturi);
+            fullPath = "content://com.alphainventor.filemanager.fileprovider/root"+fullPath;
+            list.add(contenturi);
+            //list.add(Uri.parse(fullPath));
+        } while (cursor.moveToNext());
+        return list;
     }
 }
