@@ -43,7 +43,7 @@ public class WiseNLUExample {
         String openApiURL = "http://aiopen.etri.re.kr:8000/WiseNLU";
         String accessKey = "1c8d733e-e922-4d5e-b4ef-e2cf9e1d8570\n";   // 발급받은 API Key
         String analysisCode = "ko-KR";        // 언어 분석 코드
-        String[] text = VoiceRecord.rs;           // 분석할 텍스트 데이터
+        String text = "가을아침 노래 틀어줘";//VoiceRecord.rs;           // 분석할 텍스트 데이터
 
         Gson gson = new Gson();
 
@@ -51,7 +51,7 @@ public class WiseNLUExample {
         Map<String, String> argument = new HashMap<>();
 
         argument.put("analysis_code", analysisCode);
-        argument.put("text", text[VoiceRecord.rs_idx]);
+        argument.put("text", text);
 
         request.put("access_key", accessKey);
         request.put("argument", argument);
