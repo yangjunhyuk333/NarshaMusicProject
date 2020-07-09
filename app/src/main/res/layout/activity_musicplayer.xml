@@ -7,27 +7,14 @@
     tools:context=".musicPlayer.MusicPlayer">
 
     <Button
-        android:id="@+id/start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:text="시작"
-        app:layout_constraintBottom_toBottomOf="@+id/pre"
-        app:layout_constraintStart_toEndOf="@+id/pre"
-        app:layout_constraintTop_toTopOf="@+id/pre" />
-
-    <Button
         android:id="@+id/stop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="24dp"
         android:text="정지"
         app:layout_constraintBottom_toBottomOf="@+id/start"
         app:layout_constraintStart_toEndOf="@+id/start"
-        app:layout_constraintTop_toTopOf="@+id/start"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="@+id/start" />
 
     <Button
         android:id="@+id/next"
@@ -36,20 +23,68 @@
         android:text="다음곡"
         app:layout_constraintBottom_toBottomOf="@+id/stop"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.389"
         app:layout_constraintStart_toEndOf="@+id/stop"
-        app:layout_constraintTop_toTopOf="@+id/stop"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="@+id/stop" />
+
+    <Button
+        android:id="@+id/start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="시작"
+        app:layout_constraintBottom_toBottomOf="@+id/pre"
+        app:layout_constraintStart_toEndOf="@+id/pre"
+        app:layout_constraintTop_toTopOf="@+id/pre" />
 
     <Button
         android:id="@+id/pre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="90dp"
         android:text="이전곡"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/music_artiste" />
+
+    <TextView
+        android:id="@+id/music_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="곡명"
+        app:layout_constraintEnd_toEndOf="@+id/musicDuration"
+        app:layout_constraintStart_toStartOf="@+id/musicDuration"
+        app:layout_constraintTop_toBottomOf="@+id/musicDuration" />
+
+    <TextView
+        android:id="@+id/music_artiste"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:text="아티스트"
+        app:layout_constraintEnd_toEndOf="@+id/music_title"
+        app:layout_constraintStart_toStartOf="@+id/music_title"
+        app:layout_constraintTop_toBottomOf="@+id/music_title" />
+
+    <TextView
+        android:id="@+id/musicDuration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
+        android:text="재생시간"
+        app:layout_constraintEnd_toEndOf="@+id/imageView3"
+        app:layout_constraintStart_toStartOf="@+id/imageView3"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="105dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

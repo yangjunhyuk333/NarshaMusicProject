@@ -3,8 +3,11 @@ package com.junhyuk.narshamusicproject.musicPlayer;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,28 +28,36 @@ public class MusicPlayer extends AppCompatActivity {
     Button startButton;
     Button stopButton;
 
-    ArrayList<Uri> uriArrayList;
+    public TextView textMusicTitle;
+    public TextView textMusicDuration;
+    public TextView textMusicArtist;
+
+    ArrayList<Uri> musicList = new ArrayList<>();
+    ArrayList<String> musicTitle = new ArrayList<>();
+    ArrayList<String> musicDuration = new ArrayList<>();
+    ArrayList<String> musicArtist = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_musicplayer);
-        if (uriArrayList == null) {
-            //uriArrayList = new ArrayList<>();
-            uriArrayList = Util.getMediaStoreReadFileUri(this);
-        }
+        //uriArrayList = new ArrayList<>();
+        Util.getMusicData(this, musicList, musicTitle, musicDuration, musicArtist);
 
         maxCount = Util.getCount(this);
         mediaPlayer = new MediaPlayer();
 
         // mediaPlayer.setDataSource(this, Uri.parse(Util.getMediaStoreReadFileUri(getApplicationContext())));
-        Log.d("TAG", ""+uriArrayList.get(0));
+        Log.d("TAG", "" + musicList.get(0));
 
 
         preButton = findViewById(R.id.pre);
         startButton = findViewById(R.id.start);
         stopButton = findViewById(R.id.stop);
         nextButton = findViewById(R.id.next);
+        textMusicArtist = findViewById(R.id.music_artiste);
+        textMusicDuration = findViewById(R.id.musicDuration);
+        textMusicTitle = findViewById(R.id.music_title);
 
 
         startButton.setOnClickListener(v -> {
@@ -56,7 +67,8 @@ public class MusicPlayer extends AppCompatActivity {
                 mediaPlayer.release();
                 mediaPlayer = null;
                 mediaPlayer = new MediaPlayer();
-                mediaPlayer.setDataSource(getApplicationContext(), uriArrayList.get(playing));
+                setData();
+                mediaPlayer.setDataSource(getApplicationContext(), musicList.get(playing));
                 mediaPlayer.prepare();
                 mediaPlayer.setOnPreparedListener(mp -> mediaPlayer.start());
 
@@ -79,7 +91,8 @@ public class MusicPlayer extends AppCompatActivity {
                 mediaPlayer.release();
                 mediaPlayer = null;
                 mediaPlayer = new MediaPlayer();
-                mediaPlayer.setDataSource(getApplicationContext(), uriArrayList.get(playing));
+                setData();
+                mediaPlayer.setDataSource(getApplicationContext(), musicList.get(playing));
                 mediaPlayer.prepare();
                 mediaPlayer.setOnPreparedListener(mp -> mediaPlayer.start());
             } catch (IOException e) {
@@ -99,7 +112,8 @@ public class MusicPlayer extends AppCompatActivity {
                 mediaPlayer.release();
                 mediaPlayer = null;
                 mediaPlayer = new MediaPlayer();
-                mediaPlayer.setDataSource(getApplicationContext(), uriArrayList.get(playing));
+                setData();
+                mediaPlayer.setDataSource(getApplicationContext(), musicList.get(playing));
                 mediaPlayer.prepare();
                 mediaPlayer.setOnPreparedListener(mp ->
                         mediaPlayer.start());
@@ -128,5 +142,17 @@ public class MusicPlayer extends AppCompatActivity {
             mediaPlayer.release();
             mediaPlayer = null;
         }
+    }
+
+    public void setData() {
+        textMusicTitle.setText((musicTitle.get(playing)).replace(".mp3", " "));
+        textMusicDuration.setText(musicDuration.get(playing));
+        textMusicArtist.setText(musicArtist.get(playing));
+    }
+
+    public void getPlayTime() {
+        String Hour = String.format("%02d", ( Integer.parseInt(musicDuration.get(playing))) / 1000 / 3600);
+        String Min = String.format("%02d", ( Integer.parseInt(musicDuration.get(playing))) / 1000 / 60) % 60);
+        String Sec = String.format("%02d", ((mediaPlayer.getDuration()) / 1000) % 60);
     }
 }
