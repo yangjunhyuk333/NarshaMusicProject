@@ -1,5 +1,6 @@
 package com.junhyuk.narshamusicproject.Intro.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.junhyuk.narshamusicproject.Intro.activity.IntroActivity;
+import com.junhyuk.narshamusicproject.MainActivity;
 import com.junhyuk.narshamusicproject.R;
 
 public class IntroFragment extends Fragment {
@@ -21,6 +23,8 @@ public class IntroFragment extends Fragment {
 
     Button nextButton;
 
+    boolean setIntent = IntroActivity.checkIntent;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -28,9 +32,10 @@ public class IntroFragment extends Fragment {
 
         nextButton = view.findViewById(R.id.next_button);
 
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        nextButton.setOnClickListener(v -> {
+            if(setIntent){
+                startActivity(new Intent(getActivity().getApplicationContext(), MainActivity.class));
+            }else{
                 ((IntroActivity)getActivity()).replaceFragment(UserDaterFragment.newInstance());
             }
         });

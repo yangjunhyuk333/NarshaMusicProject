@@ -1,6 +1,7 @@
 package com.junhyuk.narshamusicproject.Intro.fragment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,9 +13,19 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 
+import android.os.Handler;
+
+import com.junhyuk.narshamusicproject.Intro.activity.IntroActivity;
 import com.junhyuk.narshamusicproject.MainActivity;
 import com.junhyuk.narshamusicproject.R;
+import com.junhyuk.narshamusicproject.database.Array_data.data;
+import com.junhyuk.narshamusicproject.database.app_data.UsrDataBase;
+import com.junhyuk.narshamusicproject.database.data.UsrData;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class UserDaterFragment extends Fragment {
 
@@ -25,6 +36,14 @@ public class UserDaterFragment extends Fragment {
     EditText editText;
     Button nextButton;
     Intent intent;
+
+    UsrDataBase usrDataBase;
+
+    Handler delayHandler = new Handler();
+
+    List<String> userNameList = Arrays.asList();
+
+    String editName;
 
     @Nullable
     @Override
@@ -37,13 +56,32 @@ public class UserDaterFragment extends Fragment {
 
         intent = new Intent(getContext(), MainActivity.class);
 
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                intent.putExtra("userName", editText.getText().toString());
-                Log.d("Test", "data: " + editText.getText().toString());
-                startActivity(intent);
-            }
+        usrDataBase = UsrDataBase.getUsrDataBase(getActivity().getApplicationContext());
+
+
+
+        nextButton.setOnClickListener(v -> {
+            editName = editText.getText().toString();
+
+            new Thread(() -> {
+                Log.d("TEST1",  "editData: " + editText.getText().toString());
+                usrDataBase.usr_dao().insert(new UsrData(editName));
+            }).start();
+
+            delayHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    usrDataBase.usr_dao().getName().observe(getActivity(), strings -> {
+                        userNameList = strings;
+                        data.userName.addAll(userNameList);
+                    });
+                    startActivity(intent);
+                }
+            }, 5000);
+
+
+
+
         });
 
         return view;
