@@ -1,6 +1,7 @@
 package com.junhyuk.narshamusicproject.musicPlayer;
 
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -8,10 +9,14 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.junhyuk.narshamusicproject.R;
+import com.junhyuk.narshamusicproject.util.Util;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class MusicPlayer extends AppCompatActivity {
-    private int[] songs; // 음원 목록
     private int playing = 0; // 현재 연주중인 음원 지시자
+    private int maxCount;
 
     MediaPlayer mediaPlayer;
 
@@ -20,15 +25,23 @@ public class MusicPlayer extends AppCompatActivity {
     Button startButton;
     Button stopButton;
 
+    ArrayList<Uri> uriArrayList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_musicplayer);
+        if (uriArrayList == null) {
+            //uriArrayList = new ArrayList<>();
+            uriArrayList = Util.getMediaStoreReadFileUri(this);
+        }
 
-        songs = new int[3];
-        songs[0] = R.raw.buluming_iu;
-        songs[1] = R.raw.izone;
-        songs[2] = R.raw.red_face;
+        maxCount = Util.getCount(this);
+        mediaPlayer = new MediaPlayer();
+
+        // mediaPlayer.setDataSource(this, Uri.parse(Util.getMediaStoreReadFileUri(getApplicationContext())));
+        Log.d("TAG", ""+uriArrayList.get(0));
+
 
         preButton = findViewById(R.id.pre);
         startButton = findViewById(R.id.start);
@@ -36,54 +49,82 @@ public class MusicPlayer extends AppCompatActivity {
         nextButton = findViewById(R.id.next);
 
 
-
         startButton.setOnClickListener(v -> {
-            if(mediaPlayer != null)
+            if (mediaPlayer != null)
                 mediaPlayer.stop();
-            mediaPlayer = MediaPlayer.create(MusicPlayer.this, songs[playing]);
-            mediaPlayer.start();
+            try {
+                mediaPlayer.release();
+                mediaPlayer = null;
+                mediaPlayer = new MediaPlayer();
+                mediaPlayer.setDataSource(getApplicationContext(), uriArrayList.get(playing));
+                mediaPlayer.prepare();
+                mediaPlayer.setOnPreparedListener(mp -> mediaPlayer.start());
+
+                Log.d("TAG", "ge");
+            } catch (IOException e) {
+                Log.d("TAG", "he");
+                e.printStackTrace();
+            }
         });
 
         preButton.setOnClickListener(v -> {
             playing--;
-            if(mediaPlayer != null) {
+            if (mediaPlayer != null) {
                 mediaPlayer.stop();
             }
-            if(playing <= -1)
-                playing = 2;
+            if (playing <= -1)
+                playing = maxCount - 1;
             Log.d("Playing", "Play : " + playing);
-            mediaPlayer = MediaPlayer.create(MusicPlayer.this, songs[playing]);
-            mediaPlayer.start();
+            try {
+                mediaPlayer.release();
+                mediaPlayer = null;
+                mediaPlayer = new MediaPlayer();
+                mediaPlayer.setDataSource(getApplicationContext(), uriArrayList.get(playing));
+                mediaPlayer.prepare();
+                mediaPlayer.setOnPreparedListener(mp -> mediaPlayer.start());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
 
         nextButton.setOnClickListener(v -> {
             playing++;
-            if(mediaPlayer != null) {
+            if (mediaPlayer != null) {
                 mediaPlayer.stop();
             }
-            if(playing == 3)
+            if (playing == maxCount)
                 playing = 0;
             Log.d("Playing", "Play : " + playing);
-            mediaPlayer = MediaPlayer.create(MusicPlayer.this, songs[playing]);
-            mediaPlayer.start();
+            try {
+                mediaPlayer.release();
+                mediaPlayer = null;
+                mediaPlayer = new MediaPlayer();
+                mediaPlayer.setDataSource(getApplicationContext(), uriArrayList.get(playing));
+                mediaPlayer.prepare();
+                mediaPlayer.setOnPreparedListener(mp ->
+                        mediaPlayer.start());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
         });
 
 
-
         stopButton.setOnClickListener(v -> {
-            if(mediaPlayer == null){
+            if (mediaPlayer == null) {
                 return;
             }
             mediaPlayer.stop();
         });
+
     }
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         // MediaPlayer 해지
-        if(mediaPlayer != null) {
+        super.onDestroy();
+        Log.d("TAG", "distory");
+        if (mediaPlayer != null) {
             mediaPlayer.release();
             mediaPlayer = null;
         }
