@@ -86,7 +86,7 @@ public class Util {
         return cursor.getCount();
     }
 
-    public static void getMusicData(Context context, ArrayList<Uri> musicList, ArrayList<String> musicTitle, ArrayList<String> musicDuration, ArrayList<String> musicArtist) {
+    public static void getMusicData(Context context, ArrayList<Uri> musicList, ArrayList<String> musicTitle, ArrayList<String> musicDuration, ArrayList<String> musicArtist, ArrayList<String> musicAlbum) {
 
         Uri externalUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
 
@@ -119,6 +119,7 @@ public class Util {
             musicTitle.add(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME)));
             musicDuration.add(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION)));
             musicArtist.add(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)));
+            musicAlbum.add(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM)));
         } while (cursor.moveToNext());
     }
 }

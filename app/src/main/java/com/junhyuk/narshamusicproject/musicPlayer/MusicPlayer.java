@@ -8,6 +8,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,17 +35,20 @@ public class MusicPlayer extends AppCompatActivity {
     public TextView textMusicDuration;
     public TextView textMusicArtist;
 
+    public ImageView imageMusicAlbum;
+
     ArrayList<Uri> musicList = new ArrayList<>();
     ArrayList<String> musicTitle = new ArrayList<>();
     ArrayList<String> musicDuration = new ArrayList<>();
     ArrayList<String> musicArtist = new ArrayList<>();
+    ArrayList<String> musicAlbum = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_musicplayer);
         //uriArrayList = new ArrayList<>();
-        Util.getMusicData(this, musicList, musicTitle, musicDuration, musicArtist);
+        Util.getMusicData(this, musicList, musicTitle, musicDuration, musicArtist, musicAlbum);
 
         maxCount = Util.getCount(this);
         mediaPlayer = new MediaPlayer();
@@ -60,6 +64,7 @@ public class MusicPlayer extends AppCompatActivity {
         textMusicArtist = findViewById(R.id.music_artiste);
         textMusicDuration = findViewById(R.id.musicDuration);
         textMusicTitle = findViewById(R.id.music_title);
+        imageMusicAlbum = findViewById(R.id.music_image);
 
 
         startButton.setOnClickListener(v -> {
@@ -79,6 +84,10 @@ public class MusicPlayer extends AppCompatActivity {
                 Log.d("TAG", "he");
                 e.printStackTrace();
             }
+            mediaPlayer.setOnCompletionListener(mp -> {
+                Log.d("TAG", "노래끝");
+                playNextSong();
+            });
         });
 
         preButton.setOnClickListener(v -> {
@@ -103,26 +112,7 @@ public class MusicPlayer extends AppCompatActivity {
         });
 
         nextButton.setOnClickListener(v -> {
-            playing++;
-            if (mediaPlayer != null) {
-                mediaPlayer.stop();
-            }
-            if (playing == maxCount)
-                playing = 0;
-            Log.d("Playing", "Play : " + playing);
-            try {
-                mediaPlayer.release();
-                mediaPlayer = null;
-                mediaPlayer = new MediaPlayer();
-                setData();
-                mediaPlayer.setDataSource(getApplicationContext(), musicList.get(playing));
-                mediaPlayer.prepare();
-                mediaPlayer.setOnPreparedListener(mp ->
-                        mediaPlayer.start());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
+            playNextSong();
         });
 
 
@@ -168,5 +158,27 @@ public class MusicPlayer extends AppCompatActivity {
         }
         else
             time = String.format ("%02d:%02d",minute,second); 
+    }
+
+    public void playNextSong() {
+        playing++;
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+        }
+        if (playing == maxCount)
+            playing = 0;
+        Log.d("Playing", "Play : " + playing);
+        try {
+            mediaPlayer.release();
+            mediaPlayer = null;
+            mediaPlayer = new MediaPlayer();
+            setData();
+            mediaPlayer.setDataSource(getApplicationContext(), musicList.get(playing));
+            mediaPlayer.prepare();
+            mediaPlayer.setOnPreparedListener(mp ->
+                    mediaPlayer.start());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
