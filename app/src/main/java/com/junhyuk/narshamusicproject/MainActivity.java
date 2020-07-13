@@ -4,13 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,10 +16,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.ParcelFileDescriptor;
 import android.provider.OpenableColumns;
 import android.util.Log;
-import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,9 +33,6 @@ import com.junhyuk.narshamusicproject.database.app_data.UsrDataBase;
 import com.junhyuk.narshamusicproject.database.data.MusicData;
 import com.junhyuk.narshamusicproject.dialog.CustomDialog;
 import com.junhyuk.narshamusicproject.musicPlayer.MusicPlayer;
-import com.junhyuk.narshamusicproject.util.Util;
-
-import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Arrays;
@@ -158,8 +151,6 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT).
                     addCategory(Intent.CATEGORY_OPENABLE);
             intent.setType("audio/*");
-
-
 
             startActivityForResult(intent, code);
         });
