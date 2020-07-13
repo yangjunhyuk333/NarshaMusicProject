@@ -23,7 +23,7 @@ public interface MUSIC_DAO {
     LiveData<List<String>> getTitle();
 
     @Query("SELECT playBackTime FROM 'MusicData'")
-    LiveData<List<Integer>> getPlayTime();
+    LiveData<List<String>> getPlayTime();
 
     @Query("SELECT singer FROM 'MusicData'")
     LiveData<List<String>> getSinger();
@@ -36,6 +36,7 @@ public interface MUSIC_DAO {
 
     @Delete
     void delete(MusicData musicData);
+
 
 
 }

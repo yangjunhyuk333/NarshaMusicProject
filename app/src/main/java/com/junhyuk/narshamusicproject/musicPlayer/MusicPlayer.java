@@ -1,29 +1,26 @@
 package com.junhyuk.narshamusicproject.musicPlayer;
 
-import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.junhyuk.narshamusicproject.R;
+import com.junhyuk.narshamusicproject.database.app_data.MusicDataBase;
+import com.junhyuk.narshamusicproject.database.data.MusicData;
 import com.junhyuk.narshamusicproject.util.Util;
-
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class MusicPlayer extends AppCompatActivity {
-    private int playing = 0; // 현재 연주중인 음원 지시자
+    private int playing = 0;
     private int maxCount;
     String time;
 
+    MusicDataBase musicDataBase;
     MediaPlayer mediaPlayer;
 
     Button preButton;
@@ -47,6 +44,8 @@ public class MusicPlayer extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_musicplayer);
+
+        musicDataBase = MusicDataBase.getMusicDatabase(getApplicationContext());
         //uriArrayList = new ArrayList<>();
         Util.getMusicData(this, musicList, musicTitle, musicDuration, musicArtist, musicAlbum);
 
@@ -54,8 +53,16 @@ public class MusicPlayer extends AppCompatActivity {
         mediaPlayer = new MediaPlayer();
 
         // mediaPlayer.setDataSource(this, Uri.parse(Util.getMediaStoreReadFileUri(getApplicationContext())));
-        Log.d("TAG", "" + musicList.get(0));
+        for(int i=0; i<maxCount; i++)
+        {
+            getPlayTime(musicDuration.get(i));
+            musicDuration.remove(i);
+            musicDuration.add(i,time);
+            MusicData musicData = new MusicData(musicTitle.get(i), musicDuration.get(i), musicArtist.get(i), musicList.get(i).toString());
+            musicDataBase.music_dao().insert(musicData);
+        }
 
+        Log.d("SELECT", musicDataBase.music_dao().getAll().toString());
 
         preButton = findViewById(R.id.pre);
         startButton = findViewById(R.id.start);
@@ -137,16 +144,15 @@ public class MusicPlayer extends AppCompatActivity {
     }
 
     public void setData() {
-        getPlayTime();
         textMusicTitle.setText((musicTitle.get(playing)).replace(".mp3", " "));
-        textMusicDuration.setText(time);
+        textMusicDuration.setText(musicDuration.get(playing));
         textMusicArtist.setText(musicArtist.get(playing));
     }
 
-    public void getPlayTime() {
-        int hour = (Integer.parseInt(musicDuration.get(playing)))/1000/3600;
-        int minute = ((Integer.parseInt(musicDuration.get(playing)))/1000/60) % 60;
-        int second = ((Integer.parseInt(musicDuration.get(playing)))/1000) % 60;
+    public void getPlayTime(String timeList) {
+        int hour = (Integer.parseInt(timeList))/1000/3600;
+        int minute = ((Integer.parseInt(timeList))/1000/60) % 60;
+        int second = ((Integer.parseInt(timeList))/1000) % 60;
         //time = String.format (   (hour + ":" + minute + ":" + second);
         if(hour == 0)
         {
@@ -157,7 +163,7 @@ public class MusicPlayer extends AppCompatActivity {
             time = String.format ("%02d",second);
         }
         else
-            time = String.format ("%02d:%02d",minute,second); 
+            time = String.format ("%02d:%02d",minute,second);
     }
 
     public void playNextSong() {

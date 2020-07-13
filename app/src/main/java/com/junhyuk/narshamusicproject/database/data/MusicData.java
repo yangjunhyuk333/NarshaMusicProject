@@ -12,12 +12,15 @@ public class MusicData
     public int musicId;
 
     private String musicTitle;
-    private int playBackTime;
+    private String playBackTime;
     private String singer;
     private String link;
 
-    public MusicData(String musicTitle) {
+    public MusicData(String musicTitle, String playBackTime, String singer, String link) {
         this.musicTitle = musicTitle;
+        this.playBackTime = playBackTime;
+        this.singer = singer;
+        this.link = link;
     }
 
     public String getMusicTitle() {
@@ -28,11 +31,11 @@ public class MusicData
         this.musicTitle = musicTitle;
     }
 
-    public int getPlayBackTime() {
+    public String getPlayBackTime() {
         return playBackTime;
     }
 
-    public void setPlayBackTime(int playBackTime) {
+    public void setPlayBackTime(String playBackTime) {
         this.playBackTime = playBackTime;
     }
 

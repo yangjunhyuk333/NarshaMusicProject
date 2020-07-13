@@ -49,8 +49,6 @@ public class IntroActivity extends AppCompatActivity {
 
         musicDataBase = MusicDataBase.getMusicDatabase(getApplicationContext());
 
-        DBThread dbThread = new DBThread();
-        dbThread.start();
 
         usrDataBase = UsrDataBase.getUsrDataBase(this);
 
@@ -97,12 +95,6 @@ public class IntroActivity extends AppCompatActivity {
         finish();
     }
 
-    public class DBThread extends Thread {
-        @Override
-        public void run() {
-            musicDataBase.music_dao().insert(new MusicData("blueming"));
-        }
-    }
 
     @Override
     protected void onResume() {
