@@ -71,8 +71,6 @@ public class MainActivity extends AppCompatActivity {
 
     Context context;
 
-    DBThread dbThread;
-
     List<String> list = Arrays.asList();
 
     List<String> userNameList = Arrays.asList();
@@ -104,15 +102,12 @@ public class MainActivity extends AppCompatActivity {
 
         musicpPlayer = findViewById(R.id.music_player);
 
-        dbThread = new DBThread();
-
         intent = getIntent();
 
         usrDataBase = UsrDataBase.getUsrDataBase(this);
 
         enterButton.setOnClickListener(v -> {
             Log.d("DataBase", "buttonClick");
-            dbThread.start();
             musicDataBase.music_dao().getTitle().observe(MainActivity.this, strings -> {
                 Log.d("DataBase", "data: " + strings.get(0));
                 list = strings;
@@ -206,12 +201,4 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
-    public class DBThread extends Thread{
-        @Override
-        public void run() {
-            musicDataBase.music_dao().insert(new MusicData(editText.getText().toString()));
-        }
-    }
-
 }
