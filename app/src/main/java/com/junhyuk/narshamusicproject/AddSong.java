@@ -1,7 +1,7 @@
 package com.junhyuk.narshamusicproject;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
+import androidx.lifecycle.LiveData;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -14,7 +14,9 @@ import com.junhyuk.narshamusicproject.database.data.MusicData;
 import com.junhyuk.narshamusicproject.util.Util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class AddSong extends AppCompatActivity {
 
@@ -30,6 +32,7 @@ public class AddSong extends AppCompatActivity {
     MediaPlayer mediaPlayer;
 
     private int maxCount;
+    List<String> list = Arrays.asList();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,20 +45,34 @@ public class AddSong extends AppCompatActivity {
         maxCount = Util.getCount(this);
         mediaPlayer = new MediaPlayer();
 
+        musicDataBase.music_dao().getTitle().observe(AddSong.this, strings -> {
+            Log.d("DataBase", "data: " + strings.get(0));
+            list = strings;
+           
+        });
         // mediaPlayer.setDataSource(this, Uri.parse(Util.getMediaStoreReadFileUri(getApplicationContext())));
         new Thread(new Runnable() {
             @Override
             public void run() {
+
                 for(int i=0; i<maxCount; i++)
                 {
+
+                    if(list.contains(musicTitle.get(i))) {
+                        Log.e("addSong","skip song : "+musicTitle.get(i));
+                        continue;
+                    }
+                    Log.e("addSong","musicDuration.get(i) : "+musicTitle.get(i));
                     getPlayTime(musicDuration.get(i));
                     musicDuration.remove(i);
                     musicDuration.add(i,time);
                     MusicData musicData = new MusicData(musicTitle.get(i), musicDuration.get(i), musicArtist.get(i), musicList.get(i).toString());
+
                     musicDataBase.music_dao().insert(musicData);
                 }
-
+                finish();
                 startActivity(new Intent(AddSong.this, MainActivity.class));
+
             }
         }).start();
     }
