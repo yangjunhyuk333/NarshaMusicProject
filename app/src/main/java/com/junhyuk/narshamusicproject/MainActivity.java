@@ -143,13 +143,7 @@ public class MainActivity extends AppCompatActivity {
 
         //음악 파일 추가 MediaStore 등록
         musicPlus.setOnClickListener(view -> {
-            int code = Value.FIND_AUDIO_REQUEST;
-
-            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT).
-                    addCategory(Intent.CATEGORY_OPENABLE);
-            intent.setType("audio/*");
-
-            startActivityForResult(intent, code);
+            startActivity(new Intent(MainActivity.this, AddSong.class));
         });
     }
     @Override
