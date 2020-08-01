@@ -33,6 +33,8 @@ import com.junhyuk.narshamusicproject.database.app_data.UsrDataBase;
 import com.junhyuk.narshamusicproject.database.data.MusicData;
 import com.junhyuk.narshamusicproject.dialog.CustomDialog;
 import com.junhyuk.narshamusicproject.musicPlayer.MusicPlayer;
+import com.junhyuk.narshamusicproject.util.Util;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Arrays;
@@ -163,8 +165,8 @@ public class MainActivity extends AppCompatActivity {
                     cursor.moveToFirst();
                     String name = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
                     Log.d(TAG,"uri F : "+name);
-                   //Util.mediaStoreSaveFile(getApplicationContext(), uri, name);
-                    //Util.mediaStoreReadFile(getApplicationContext());
+                    //Util.mediaStoreSaveFile(getApplicationContext(), uri, name);
+                    Util.mediaStoreReadFile(getApplicationContext());
                 }
             } catch (UnsupportedEncodingException e) {
 
