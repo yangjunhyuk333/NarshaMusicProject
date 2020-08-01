@@ -46,8 +46,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         } else {
             viewHolder.musicText.setText("노래없음");
         }
-        Log.d("datadata", "data: " + data.musicTitle.get(position));
-        Log.d("datadata", "data: " + data.musicTitle.size());
 
     }
 
