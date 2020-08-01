@@ -85,7 +85,8 @@ public class Util {
                 MediaStore.Audio.Media.DATA
 
         };
-        Cursor cursor = context.getContentResolver().query(uri, projection, MediaStore.Audio.Media.DATA + " like ? ", new String[]{"%utm%"}, null);
+        //Cursor cursor = context.getContentResolver().query(uri, projection, MediaStore.Audio.Media.DATA + " like ? ", new String[]{"%utm%"}, null);
+        Cursor cursor = context.getContentResolver().query(uri, projection, MediaStore.Audio.Media.DATA + " like ? ", new String[]{"%Music%"}, null);
 
         if (cursor == null) {
             // query failed, handle error.
@@ -182,7 +183,9 @@ public class Util {
         String[] projection = new String[]{
 
         };
-        Cursor cursor = context.getContentResolver().query(externalUri, projection, null, null, null);
+        //Cursor cursor = context.getContentResolver().query(externalUri, projection, null, null, null);
+        Cursor cursor = context.getContentResolver().query(externalUri, projection, MediaStore.Audio.Media.DATA + " like ? ", new String[]{"%Music%"}, null);
+
         Log.d("MainB", "cnt : "+cursor.getCount());
         return cursor.getCount();
     }
@@ -200,7 +203,8 @@ public class Util {
                 MediaStore.Audio.Media.DATA
         };
 
-        Cursor cursor = context.getContentResolver().query(externalUri, projection, null, null, null);
+        //Cursor cursor = context.getContentResolver().query(externalUri, projection, null, null, null);
+        Cursor cursor = context.getContentResolver().query(externalUri, projection, MediaStore.Audio.Media.DATA + " like ? ", new String[]{"%Music%"}, null);
 
         Log.d("MainA", "cnt : "+cursor.getCount());
         if (cursor == null || !cursor.moveToFirst()) {
