@@ -43,8 +43,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         viewHolder.musicImage.setImageResource(R.drawable.music_thumnail_example);
+        if(data.musicTitle !=null && data.musicTitle.size()>0) {
+            viewHolder.musicText.setText(data.musicTitle.get(0));
+        }else {
+            viewHolder.musicText.setText("노래없음");
+        }
 
-        viewHolder.musicText.setText(data.musicTitle.get(0));
     }
 
     @Override
