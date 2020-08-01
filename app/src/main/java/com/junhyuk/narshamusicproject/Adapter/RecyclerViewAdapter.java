@@ -52,7 +52,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public int getItemCount() {
         //받아온 음악수에 따라 리사이클럽 뷰 수 지정
-        return data.musicTitle.size();
+        if(data.musicTitle !=null && data.musicTitle.size()>0) {
+            return data.musicTitle.size();
+        }else {
+            return 1;
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
