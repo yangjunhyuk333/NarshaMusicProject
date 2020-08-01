@@ -41,20 +41,22 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         viewHolder.musicImage.setImageResource(R.drawable.music_thumnail_example);
-        if(data.musicTitle !=null && data.musicTitle.size()>0) {
-            viewHolder.musicText.setText(data.musicTitle.get(0));
-        }else {
+        if (data.musicTitle != null && data.musicTitle.size() > 0) {
+            viewHolder.musicText.setText(data.musicTitle.get(position));
+        } else {
             viewHolder.musicText.setText("노래없음");
         }
+        Log.d("datadata", "data: " + data.musicTitle.get(position));
+        Log.d("datadata", "data: " + data.musicTitle.size());
 
     }
 
     @Override
     public int getItemCount() {
         //받아온 음악수에 따라 리사이클럽 뷰 수 지정
-        if(data.musicTitle !=null && data.musicTitle.size()>0) {
+        if (data.musicTitle != null && data.musicTitle.size() > 0) {
             return data.musicTitle.size();
-        }else {
+        } else {
             return 1;
         }
     }
