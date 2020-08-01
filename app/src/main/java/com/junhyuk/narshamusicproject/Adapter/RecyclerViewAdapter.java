@@ -23,8 +23,6 @@ import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
-    int i = 10;
-
     Application application;
 
     MusicDataBase musicDataBase;
@@ -53,7 +51,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        return i;
+        //받아온 음악수에 따라 리사이클럽 뷰 수 지정
+        if(data.musicTitle !=null && data.musicTitle.size()>0) {
+            return data.musicTitle.size();
+        }else {
+            return 1;
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
