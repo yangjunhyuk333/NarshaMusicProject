@@ -14,7 +14,7 @@ import java.io.IOException;
 
 public class MusicService extends Service {
 
-    MediaPlayer mediaPlayer = new MediaPlayer();
+    public static MediaPlayer mediaPlayer = new MediaPlayer();
 
     int position;
 
