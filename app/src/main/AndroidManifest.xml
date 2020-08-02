@@ -17,7 +17,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".AddSong"></activity>
+        <service
+            android:name=".MusicService"
+            android:enabled="true"
+            android:exported="true"></service>
+
+        <activity android:name=".AddSong" />
         <activity android:name=".MainActivity" />
         <activity android:name=".musicPlayer.MusicPlayer" />
         <activity android:name=".Intro.activity.IntroActivity">

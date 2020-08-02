@@ -31,6 +31,8 @@ public interface MUSIC_DAO {
     @Query("SELECT link FROM 'MusicData'")
     LiveData<List<String>> getLink();
 
+    @Query("SELECT COUNT(*) as cnt FROM MusicData")
+
     @Insert
     void insert(MusicData musicData);
 

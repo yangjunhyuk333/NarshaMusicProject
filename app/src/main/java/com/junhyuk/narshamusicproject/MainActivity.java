@@ -60,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
 
+    RecyclerViewAdapter recyclerViewAdapter;
+
     TextView musicPlus;
 
     TextView textView;
@@ -129,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(new RecyclerViewAdapter());
+        RecyclerViewAdapter.setContext(MainActivity.this);
 
         voiceButton.setOnClickListener(v -> {
             //다이얼로그 실행

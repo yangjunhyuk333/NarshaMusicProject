@@ -1,6 +1,9 @@
 package com.junhyuk.narshamusicproject.Adapter;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.Intent;
+import android.media.MediaPlayer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,20 +17,28 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.junhyuk.narshamusicproject.Intro.activity.IntroActivity;
 import com.junhyuk.narshamusicproject.MainActivity;
+import com.junhyuk.narshamusicproject.MusicService;
 import com.junhyuk.narshamusicproject.R;
 import com.junhyuk.narshamusicproject.database.Array_data.data;
 import com.junhyuk.narshamusicproject.database.app_data.MusicDataBase;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+
+    public static Context context;
 
     Application application;
 
     MusicDataBase musicDataBase;
 
     List<String> list = Arrays.asList();
+
+    public static void setContext(Context context) {
+        RecyclerViewAdapter.context = context;
+    }
 
     @NonNull
     @Override
@@ -46,6 +57,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         } else {
             viewHolder.musicText.setText("노래없음");
         }
+
+        viewHolder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, MusicService.class);
+            intent.putExtra("position", position);
+            context.startService(intent);
+
+        });
 
     }
 
