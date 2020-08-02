@@ -29,7 +29,7 @@ import java.util.Map;
 public class CustomDialog implements VoiceRecord.VoiceRecordResult {
     private Context context;
     private static VoiceRecord record;
-    Dialog dialog;
+    static Dialog dialog;
     public static final String TAG = "CustomDialog";
 
     public CustomDialog(Context context) {
@@ -69,7 +69,7 @@ public class CustomDialog implements VoiceRecord.VoiceRecordResult {
     public void getVoide(String msg) {
         Log.d(TAG,"msg : "+msg);
         dialog.dismiss();
-        new S2WTask().execute("");
+        new S2WTask().execute(msg);
     }
 
     public void stringToWord(String msg) {
@@ -100,11 +100,13 @@ public class CustomDialog implements VoiceRecord.VoiceRecordResult {
 
         @Override
         protected String doInBackground(String... strings) {
+            if(strings[0] == null)
+                return null;
             String openApiURL = "http://aiopen.etri.re.kr:8000/WiseNLU";
-            String accessKey = "1c8d733e-e922-4d5e-b4ef-e2cf9e1d8570\n";   // 발급받은 API Key
-            String analysisCode = "ko-KR";        // 언어 분석 코드
-            String text = "가을아침 노래 틀어줘";//VoiceRecord.rs;           // 분석할 텍스트 데이터
-
+            String accessKey = "1c8d733e-e922-4d5e-b4ef-e2cf9e1d8570";   // 발급받은 API Key
+            String analysisCode = "ner";        // 언어 분석 코드
+            //String text = "가을아침 노래 틀어줘";//VoiceRecord.rs;           // 분석할 텍스트 데이터
+            String text = strings[0];
             Gson gson = new Gson();
 
             Map<String, Object> request = new HashMap<>();

@@ -189,7 +189,7 @@ public class VoiceRecord {
             log(rs[0]+"\r\n");
             //FuncVoiceOrderCheck(rs[0]);
             customDialog.getVoide(rs[0]);
-            mRecognizer.startListening(SttIntent);
+            //mRecognizer.startListening(SttIntent);
 
 
         }
