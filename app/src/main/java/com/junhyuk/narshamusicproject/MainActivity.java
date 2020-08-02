@@ -48,7 +48,8 @@ public class MainActivity extends AppCompatActivity {
     String[] permission_list = {
             Manifest.permission.RECORD_AUDIO,
             Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.FOREGROUND_SERVICE
     };
 
     UsrDataBase usrDataBase;
