@@ -32,6 +32,7 @@ public interface MUSIC_DAO {
     LiveData<List<String>> getLink();
 
     @Query("SELECT COUNT(*) as cnt FROM MusicData")
+    LiveData<Integer> getIdCount();
 
     @Insert
     void insert(MusicData musicData);
