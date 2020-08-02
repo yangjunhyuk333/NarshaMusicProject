@@ -44,12 +44,13 @@ public class AddSong extends AppCompatActivity {
 
         maxCount = Util.getCount(this);
         mediaPlayer = new MediaPlayer();
+        try {
+            musicDataBase.music_dao().getTitle().observe(AddSong.this, strings -> {
+                Log.d("DataBase", "data: " + strings.get(0));
+                list = strings;
 
-        musicDataBase.music_dao().getTitle().observe(AddSong.this, strings -> {
-            Log.d("DataBase", "data: " + strings.get(0));
-            list = strings;
-           
-        });
+            });
+        }catch ( Exception e){}
         // mediaPlayer.setDataSource(this, Uri.parse(Util.getMediaStoreReadFileUri(getApplicationContext())));
         new Thread(new Runnable() {
             @Override
@@ -70,8 +71,9 @@ public class AddSong extends AppCompatActivity {
 
                     musicDataBase.music_dao().insert(musicData);
                 }
+                setResult(RESULT_OK);
                 finish();
-                startActivity(new Intent(AddSong.this, MainActivity.class));
+                //startActivity(new Intent(AddSong.this, MainActivity.class));
 
             }
         }).start();

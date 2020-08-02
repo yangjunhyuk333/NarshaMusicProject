@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.junhyuk.narshamusicproject.Adapter.RecyclerViewAdapter;
+import com.junhyuk.narshamusicproject.Intro.activity.IntroActivity;
 import com.junhyuk.narshamusicproject.constant.Value;
 import com.junhyuk.narshamusicproject.database.Array_data.data;
 import com.junhyuk.narshamusicproject.database.app_data.MusicDataBase;
@@ -143,14 +144,15 @@ public class MainActivity extends AppCompatActivity {
 
         //음악 파일 추가 MediaStore 등록
         musicPlus.setOnClickListener(view -> {
-            startActivity(new Intent(MainActivity.this, AddSong.class));
+            //startActivity(new Intent(MainActivity.this, AddSong.class));
+            startActivityForResult(new Intent(MainActivity.this, AddSong.class),Value.FIND_MUSIC_REQUEST);
         });
     }
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
         if (requestCode == Value.FIND_AUDIO_REQUEST && resultCode == Activity.RESULT_OK) {
-            Uri uri  = data.getData();
+            Uri uri  = intent.getData();
             try {
                 Log.d(TAG,"uri : "+ URLDecoder.decode(uri.toString(),"UTF-8"));
                 Log.d(TAG,"uri P : "+uri.getPath());
@@ -166,6 +168,19 @@ public class MainActivity extends AppCompatActivity {
 
                 Log.d(TAG,"err : "+ e.getMessage());
             }
+        }else if(requestCode == Value.FIND_MUSIC_REQUEST && resultCode == Activity.RESULT_OK){
+            Log.d(TAG,"find music success");
+            musicDataBase.music_dao().getTitle().observe(MainActivity.this, strings -> {
+                data.musicTitle.clear();
+                data.musicTitle.addAll(strings);
+            });
+            usrDataBase.usr_dao().getName().observe(MainActivity.this, strings -> {
+                if (!strings.isEmpty()) {
+                    data.userName.addAll(strings);
+                }
+            });
+
+            recyclerView.getAdapter().notifyDataSetChanged();
         }
     }
 

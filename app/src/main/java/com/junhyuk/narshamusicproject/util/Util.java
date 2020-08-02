@@ -37,7 +37,8 @@ public class Util {
         };
         Log.e("curso","cursor uri : "+uri);
 //        Cursor cursor = contentResolver.query(uri, projection, null, null, null);
-        Cursor cursor = context.getContentResolver().query(uri, projection, MediaStore.Audio.Media.DATA + " like ? ", new String[]{"%Music%"}, null);
+        Cursor cursor = context.getContentResolver().query(uri, projection, MediaStore.Audio.Media.DATA + " like ? and "+MediaStore.Audio.Media.DATA + " like ? ",
+                new String[]{"%/Music/%","%.mp3"}, null);
 
         //Cursor cursor = context.getContentResolver().query(uri, projection, MediaStore.Audio.Media.DATA + " like ? ", new String[]{"%utm%"}, null);
         Log.e("curso","cursor : "+cursor.getCount());
@@ -184,8 +185,9 @@ public class Util {
 
         };
         //Cursor cursor = context.getContentResolver().query(externalUri, projection, null, null, null);
-        Cursor cursor = context.getContentResolver().query(externalUri, projection, MediaStore.Audio.Media.DATA + " like ? ", new String[]{"%Music%"}, null);
-
+        //Cursor cursor = context.getContentResolver().query(externalUri, projection, MediaStore.Audio.Media.DATA + " like ? ", new String[]{"%Music%"}, null);
+        Cursor cursor = context.getContentResolver().query(externalUri, projection, MediaStore.Audio.Media.DATA + " like ? and "+MediaStore.Audio.Media.DATA + " like ? ",
+                new String[]{"%/Music/%","%.mp3"}, null);
         Log.d("MainB", "cnt : "+cursor.getCount());
         return cursor.getCount();
     }
@@ -204,8 +206,9 @@ public class Util {
         };
 
         //Cursor cursor = context.getContentResolver().query(externalUri, projection, null, null, null);
-        Cursor cursor = context.getContentResolver().query(externalUri, projection, MediaStore.Audio.Media.DATA + " like ? ", new String[]{"%Music%"}, null);
-
+//        Cursor cursor = context.getContentResolver().query(externalUri, projection, MediaStore.Audio.Media.DATA + " like ? ", new String[]{"%Music%"}, null);
+        Cursor cursor = context.getContentResolver().query(externalUri, projection, MediaStore.Audio.Media.DATA + " like ? and "+MediaStore.Audio.Media.DATA + " like ? ",
+                new String[]{"%/Music/%","%.mp3"}, null);
         Log.d("MainA", "cnt : "+cursor.getCount());
         if (cursor == null || !cursor.moveToFirst()) {
             return;
