@@ -124,12 +124,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(Integer integer) {
                 data.musicCount = integer;
+                Log.d("ddd", "aaaa"+ integer);
             }
         });
 
-        musicDataBase.music_dao().getLink().observe(this, uris -> {
-            data.musicList.clear();
-            data.musicList.addAll(uris);
+        musicDataBase.music_dao().getLink().observe(this, new Observer<List<String>>() {
+            @Override
+            public void onChanged(List<String> strings) {
+                data.musicList.clear();
+                data.musicList.addAll(strings);
+                Log.d("ddd", "dddd"+ strings);
+            }
         });
 
 

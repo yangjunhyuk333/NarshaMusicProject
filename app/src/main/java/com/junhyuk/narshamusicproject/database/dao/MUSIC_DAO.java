@@ -1,7 +1,5 @@
 package com.junhyuk.narshamusicproject.database.dao;
 
-import android.net.Uri;
-
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -31,7 +29,7 @@ public interface MUSIC_DAO {
     LiveData<List<String>> getSinger();
 
     @Query("SELECT link FROM 'MusicData'")
-    LiveData<List<Uri>> getLink();
+    LiveData<List<String>> getLink();
 
     @Query("SELECT COUNT(*) as cnt FROM MusicData")
     LiveData<Integer> getIdCount();

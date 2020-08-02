@@ -1,7 +1,5 @@
 package com.junhyuk.narshamusicproject.database.data;
 
-import android.net.Uri;
-
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -16,9 +14,9 @@ public class MusicData
     private String musicTitle;
     private String playBackTime;
     private String singer;
-    private Uri link;
+    private String link;
 
-    public MusicData(String musicTitle, String playBackTime, String singer, Uri link) {
+    public MusicData(String musicTitle, String playBackTime, String singer, String link) {
         this.musicTitle = musicTitle;
         this.playBackTime = playBackTime;
         this.singer = singer;
@@ -49,11 +47,11 @@ public class MusicData
         this.singer = singer;
     }
 
-    public Uri getLink() {
+    public String getLink() {
         return link;
     }
 
-    public void setLink(Uri link) {
+    public void setLink(String link) {
         this.link = link;
     }
 

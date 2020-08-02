@@ -3,6 +3,7 @@ package com.junhyuk.narshamusicproject;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -13,11 +14,11 @@ import java.io.IOException;
 
 public class MusicService extends Service {
 
-    MediaPlayer mediaPlayer;
+    MediaPlayer mediaPlayer = new MediaPlayer();
 
     int position;
 
-    int maxCount = Util.getCount(this);
+
     @Override
     public IBinder onBind(Intent intent) {
         throw new UnsupportedOperationException("Not yet implemented");
@@ -33,7 +34,7 @@ public class MusicService extends Service {
             mediaPlayer.release();
             mediaPlayer = null;
             mediaPlayer = new MediaPlayer();
-            mediaPlayer.setDataSource(getApplicationContext(), data.musicList.get(position));
+            mediaPlayer.setDataSource(getApplicationContext(), Uri.parse(data.musicList.get(position)));
             mediaPlayer.prepare();
             mediaPlayer.setOnPreparedListener(mp -> mediaPlayer.start());
 
@@ -54,14 +55,14 @@ public class MusicService extends Service {
         if (mediaPlayer != null) {
             mediaPlayer.stop();
         }
-        if (position == maxCount)
+        if (position == (data.musicCount-1))
             position = 0;
         Log.d("Playing", "Play : " + position);
         try {
             mediaPlayer.release();
             mediaPlayer = null;
             mediaPlayer = new MediaPlayer();
-            mediaPlayer.setDataSource(getApplicationContext(), data.musicList.get(position));
+            mediaPlayer.setDataSource(getApplicationContext(), Uri.parse(data.musicList.get(position)));
             mediaPlayer.prepare();
             mediaPlayer.setOnPreparedListener(mp ->
                     mediaPlayer.start());
