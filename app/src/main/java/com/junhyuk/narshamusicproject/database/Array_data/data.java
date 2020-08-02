@@ -11,4 +11,5 @@ public class  data {
     public static ArrayList<String> musicDuration = new ArrayList<>();
     public static ArrayList<String> musicArtist = new ArrayList<>();
     public static ArrayList<String> musicAlbum = new ArrayList<>();
+    public static int musicCount;
 }

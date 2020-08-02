@@ -120,6 +120,18 @@ public class MainActivity extends AppCompatActivity {
             });
         });
 
+        musicDataBase.music_dao().getIdCount().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                data.musicCount = integer;
+            }
+        });
+
+        musicDataBase.music_dao().getLink().observe(this, uris -> {
+            data.musicList.clear();
+            data.musicList.addAll(uris);
+        });
+
 
 
         Log.d("TEST1", "data: " + data.userName);
